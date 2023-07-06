@@ -153,7 +153,7 @@ Open Postman and navigate to the following URLs:
    ```bash
    http://localhost:8080/user/userLogin
    ```
-   **Method**: `POST` </br>
+   **Method**: `GET` </br>
    **Request Body**:
    ```json
    {
@@ -167,7 +167,7 @@ Open Postman and navigate to the following URLs:
    ```bash
    http://localhost:8080/user/adminLogin
    ```
-   **Method**: `POST` </br>
+   **Method**: `GET` </br>
    **Request Body**:
    ```json
    {
