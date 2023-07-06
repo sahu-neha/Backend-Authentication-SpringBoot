@@ -105,7 +105,7 @@ Run as Spring Boot App (Alt+Shift+X, B)
 
 > ## URL
 
-Open Poostman and navigate to the following URLs:
+Open Postman and navigate to the following URLs:
 
 1. Home:
 
