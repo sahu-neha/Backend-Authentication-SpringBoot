@@ -22,6 +22,8 @@ import com.login.model.User;
 import com.login.service.JWTService;
 import com.login.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @CrossOrigin(origins = "*")
 public class UserController {
@@ -59,7 +61,7 @@ public class UserController {
 	 */
 	// http://localhost:8080/user/signup
 	@PostMapping("/user/signup")
-	public ResponseEntity<User> userSignUp(@RequestBody User user) throws UserException {
+	public ResponseEntity<User> userSignUp(@Valid @RequestBody User user) throws UserException {
 		return new ResponseEntity<>(userService.addUser(user, false), HttpStatus.ACCEPTED);
 	}
 
@@ -74,7 +76,7 @@ public class UserController {
 	 */
 	// http://localhost:8080/user/signup/{secretKey}
 	@PostMapping("/user/signup/{secretKey}")
-	public ResponseEntity<User> adminSignUp(@RequestBody User user, @PathVariable String secretKey)
+	public ResponseEntity<User> adminSignUp(@Valid @RequestBody User user, @PathVariable String secretKey)
 			throws UserException, AdminException {
 		if (!secretKey.equals(this.secretKey))
 			throw new AdminException("Wrong Passcode.");
@@ -112,7 +114,7 @@ public class UserController {
 	 */
 	// http://localhost:8080/authenticate
 	@PostMapping("/authenticate")
-	public String authenticateAndGetToken(@RequestBody UserDTO authRequest) {
+	public String authenticateAndGetToken(@Valid @RequestBody UserDTO authRequest) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
 		if (authentication.isAuthenticated()) {
