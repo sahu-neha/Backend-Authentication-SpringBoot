@@ -18,37 +18,57 @@ public class MyUserDetails implements UserDetails {
 		this.user = user;
 	}
 
+	/**
+	 * method to get authorities
+	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-
 		return Arrays.stream(user.getRoles().split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 
+	/**
+	 * method to get password and username
+	 */
 	@Override
 	public String getPassword() {
 		return user.getPassword();
 	}
 
+	/**
+	 * method to get username
+	 */
 	@Override
 	public String getUsername() {
 		return user.getEmail();
 	}
 
+	/**
+	 * method to check if account is expired, locked, credentials expired or enabled
+	 */
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
+	/**
+	 * method to check if account is locked
+	 */
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	/**
+	 * method to check if credentials are expired
+	 */
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
+	/**
+	 * method to check if account is enabled
+	 */
 	@Override
 	public boolean isEnabled() {
 		return true;

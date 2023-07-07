@@ -23,6 +23,7 @@ import com.login.filter.JWTFilter;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
 	@Autowired
 	private JWTFilter authFilter;
 
@@ -36,10 +37,17 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 
+	/**
+	 * This method is used to configure the security filter chain
+	 * 
+	 * @param http
+	 * @return SecurityFilterChain
+	 * @throws Exception
+	 */
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf().disable().authorizeHttpRequests()
-				.requestMatchers("/authenticate", "/user", "/apple", "/user/signup/**").permitAll().and()
+				.requestMatchers("/authenticate", "/user", "/user/signup/**").permitAll().and()
 				.authorizeHttpRequests().requestMatchers("/user/userLogin").hasAuthority("ROLE_USER").and()
 				.authorizeHttpRequests().requestMatchers("/user/adminLogin").hasAuthority("ROLE_ADMIN").and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -47,6 +55,11 @@ public class SecurityConfig {
 				.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class).build();
 	}
 
+	/**
+	 * This method is used to configure the authentication provider
+	 * 
+	 * @return AuthenticationProvider
+	 */
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -57,6 +70,13 @@ public class SecurityConfig {
 		return authenticationProvider;
 	}
 
+	/**
+	 * This method is used to configure the authentication manager
+	 * 
+	 * @param config
+	 * @return AuthenticationManager
+	 * @throws Exception
+	 */
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 		return config.getAuthenticationManager();

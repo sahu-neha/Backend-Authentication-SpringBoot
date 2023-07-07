@@ -30,22 +30,49 @@ public class UserController {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+
 	@Autowired
 	private UserService userService;
 
 	@Value("${admin.secretKey}")
 	private String secretKey;
 
+	/**
+	 * method to login user
+	 * 
+	 * @param user
+	 * @return user
+	 * @throws UserException
+	 */
+	// http://localhost:8080/user
 	@GetMapping("/user")
 	public ResponseEntity<String> welcomePage() {
 		return new ResponseEntity<>("Welcome to the website !", HttpStatus.OK);
 	}
 
+	/**
+	 * method to sign in user
+	 * 
+	 * @param user
+	 * @return user
+	 * @throws UserException
+	 */
+	// http://localhost:8080/user/signup
 	@PostMapping("/user/signup")
 	public ResponseEntity<User> userSignUp(@RequestBody User user) throws UserException {
 		return new ResponseEntity<>(userService.addUser(user, false), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * method to sign in admin
+	 * 
+	 * @param user
+	 * @param secretKey
+	 * @return user
+	 * @throws UserException
+	 * @throws AdminException
+	 */
+	// http://localhost:8080/user/signup/{secretKey}
 	@PostMapping("/user/signup/{secretKey}")
 	public ResponseEntity<User> adminSignUp(@RequestBody User user, @PathVariable String secretKey)
 			throws UserException, AdminException {
@@ -55,16 +82,35 @@ public class UserController {
 		return new ResponseEntity<>(userService.addUser(user, true), HttpStatus.ACCEPTED);
 	}
 
+	/**
+	 * method to login user
+	 * 
+	 * @return string message
+	 */
+	// http://localhost:8080/user/userLogin
 	@GetMapping("/user/userLogin")
 	public ResponseEntity<String> userLogin() {
 		return new ResponseEntity<>("Welcome User!", HttpStatus.OK);
 	}
 
+	/**
+	 * method to login admin
+	 * 
+	 * @return string message
+	 */
+	// http://localhost:8080/user/adminLogin
 	@GetMapping("/user/adminLogin")
 	public ResponseEntity<String> adminLogin() {
 		return new ResponseEntity<>("Welcome Admin !", HttpStatus.OK);
 	}
 
+	/**
+	 * method to authenticate user
+	 * 
+	 * @param authRequest
+	 * @return string token
+	 */
+	// http://localhost:8080/authenticate
 	@PostMapping("/authenticate")
 	public String authenticateAndGetToken(@RequestBody UserDTO authRequest) {
 		Authentication authentication = authenticationManager.authenticate(
